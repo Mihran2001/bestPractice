@@ -10,15 +10,16 @@ const register = async (req) => {
             return false
         }
         else {
+            const hashedPassword = await bcrypt.hash(req.body.password, 10)
             const creatUser = new User({
                 email: req.body.email,
                 username: req.body.username,
-                password: req.body.password
+                password: hashedPassword
             })
-            await creatUser.save(function(err, doc) {
+            await creatUser.save(function (err, doc) {
                 if (err) return console.error(err);
                 console.log("Document inserted succussfully!");
-              })
+            })
             return true
         }
     }
@@ -27,30 +28,21 @@ const register = async (req) => {
     }
 }
 
-const login = async (req) => {
+const login = async (body) => {
 
-    const { email, password } = req;
-    
+    const { username, password } = body;
     try {
-        const user = await User.findOne({ email })
-        if (user)
-        {
-            const isMatch = bcrypt.compare(password, user.password)
-            if (isMatch) {
-                return user
-            }
-            else {
-                throw new Error('Name or Password inst match')
-            }
+        const user = await User.findOne({ username })
+        const isMatch = await bcrypt.compare(password, user.password)
+        if (isMatch) {
+            return user
         }
-        else
-        {
-            throw new Error('Name is not exsist')
+        else {
+            throw new Error('Name or Password inst match')
         }
     }
-    catch(err)
-    {
-        throw new Error(err)
+    catch {
+        throw "User isnt defined"
     }
 }
 

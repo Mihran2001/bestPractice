@@ -18,14 +18,17 @@ const register = async (req, res) => {
         }
     }
     catch (err) {
-        console.log(err)
+        throw err
     }
 }
 
 const login = async (req, res) => {
+    //console.log(req.body)
     try {
-        const user = authService.login(req.body);
-        const token = await jwtService.signToken(user);
+        const user = await authService.login(req.body);
+        console.log(user)
+        const token = await jwt.sign({userId: user._id}, process.env.JWT_SECRET, {expiresIn: '1h'});
+
 
         res.cookie('jwt', token, {
             httpOnly: true, sameSite: true, maxAge: 60 * 60 * 1000
@@ -36,10 +39,20 @@ const login = async (req, res) => {
             userId: user._id
         })
     }
-    catch {
-        return res.status(500).json({ errorMessage: 'server error' });
+    catch(err) {
+        res.json(err)
     }
 }
 
-module.exports = { register, login }
+const signOut = (req, res) => {
+    try {
+      res.clearCookie('jwt');
+      res.status(200).json();
+    } catch (err) {
+      logger.error(err);
+      return res.status(500).json({ errorMessage: 'server error' });
+    }
+  };
+
+module.exports = { register, login, signOut }
 
