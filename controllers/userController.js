@@ -27,14 +27,13 @@ const login = async (req, res) => {
     try {
         const user = await authService.login(req.body);
         console.log(user)
-        const token = await jwt.sign({userId: user._id}, process.env.JWT_SECRET, {expiresIn: '1h'});
-
+        const token = jwt.sign({userId: user._id}, process.env.JWT_SECRET, {expiresIn: '1h'});
 
         res.cookie('jwt', token, {
             httpOnly: true, sameSite: true, maxAge: 60 * 60 * 1000
         });
 
-        return res.status(200).json({
+        res.status(200).json({
             username: user.username,
             userId: user._id
         })
@@ -49,10 +48,19 @@ const signOut = (req, res) => {
       res.clearCookie('jwt');
       res.status(200).json();
     } catch (err) {
-      logger.error(err);
       return res.status(500).json({ errorMessage: 'server error' });
     }
   };
+
+// const profile = (req, res) => {
+//     try {
+//         const userObjects = authService.profile();
+//         res.json(userObjects)
+//     }
+//     catch {
+//         res.json({message: "No objects"}) 
+//     }
+// }
 
 module.exports = { register, login, signOut }
 

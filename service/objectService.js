@@ -1,9 +1,15 @@
 const objects = require('../models/objects')
 
-const creatObject = async (req) => {
+const createObject = async (req) => {
     try {
-        const object = new objects({ ...req.body })
-        const savedObj = await obj.save()
+        console.log(123)
+        // const object = new objects({ ...req.body, createdBy: req.locals.user._id })
+        const object = new objects({
+            name: req.body.name,
+            createdBy: req.app.locals.user._id
+        })
+        console.log(object)
+        const savedObj = await object.save()
 
         return  savedObj
     }
@@ -37,11 +43,9 @@ const editObject = async (req) => {
 
 const getAllObjects = async (locals) => {
     try {
-        const objects = await objects.find({ createdBy: locals.user._id });
-        if (!objects) {
-          throw Error('objects don\'t exist');
-        }
-        return objects;
+        const obj = await objects.find({ createdBy: locals.user._id });
+        // console.log(objects)
+        return obj;
       } catch (err) {
         throw Error(err);
       }
@@ -49,7 +53,7 @@ const getAllObjects = async (locals) => {
 
 
 module.exports = {
-    creatObject,
+    createObject,
     deleteObject,
     editObject,
     getAllObjects

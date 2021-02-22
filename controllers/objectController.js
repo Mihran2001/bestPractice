@@ -1,11 +1,12 @@
 const express = require('express')
 const objectService = require('../service/objectService')
 
-const creatObject = async  (req, res) =>
+const createObject = async  (req, res) =>
 {
     try {
-        await objectService.creatObject(req)
-        res.json({message: "Object created"})
+        // console.log(req.app.locals)
+        const obj = await objectService.createObject(req)
+        res.json(obj)
     }
     catch (err) {
         throw err
@@ -24,8 +25,8 @@ const deleteObject = async (req, res) => {
 
 const editObject = async (req, res) => {
     try {
-        await objectService.editObject(req)
-        res.json ({message: "Object edited"})
+        const editedObj = await objectService.editObject(req)
+        res.json (editedObj)
     }
     catch (err) {
         throw err
@@ -34,11 +35,12 @@ const editObject = async (req, res) => {
 
 const getObjects = async (req, res) => {
     try {
-      const objects = await objetService.getAllObjects(req.app.locals);
-      return res.status(200).json(objects);
+      const objects = await objectService.getAllObjects(req.app.locals);
+      res.status(200).json(objects);
     } catch (err) {
+        console.log(err)
       res.status(500).json({ errorMessage: 'server error' });
     }
   };
 
-module.exports = { creatObject, deleteObject, editObject, getObjects}
+module.exports = { createObject, deleteObject, editObject, getObjects}
