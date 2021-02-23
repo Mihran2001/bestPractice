@@ -23,7 +23,6 @@ const register = async (req, res) => {
 }
 
 const login = async (req, res) => {
-    //console.log(req.body)
     try {
         const user = await authService.login(req.body);
         console.log(user)
@@ -51,16 +50,6 @@ const signOut = (req, res) => {
       return res.status(500).json({ errorMessage: 'server error' });
     }
   };
-
-// const profile = (req, res) => {
-//     try {
-//         const userObjects = authService.profile();
-//         res.json(userObjects)
-//     }
-//     catch {
-//         res.json({message: "No objects"}) 
-//     }
-// }
 
 module.exports = { register, login, signOut }
 

@@ -1,22 +1,5 @@
 const objects = require('../models/objects')
-
-const createObject = async (req) => {
-    try {
-        console.log(123)
-        // const object = new objects({ ...req.body, createdBy: req.locals.user._id })
-        const object = new objects({
-            name: req.body.name,
-            createdBy: req.app.locals.user._id
-        })
-        console.log(object)
-        const savedObj = await object.save()
-
-        return  savedObj
-    }
-    catch (err) {
-        throw err
-    }
-}
+const fs = require('fs')
 
 const deleteObject = async (req) => 
 {
@@ -41,16 +24,59 @@ const editObject = async (req) => {
     }
 }
 
+const findObj = (obj, key, value) => {
+    const result = [];
+    const recursiveSearch = (obj) => {
+      if (!obj || typeof obj !== 'object') {
+        return;
+      }
+      if (obj[key] === value) {
+        result.push(obj);
+      }
+      Object.keys(obj).forEach(function (k) {
+        recursiveSearch(obj[k]);
+      });
+    };
+    recursiveSearch(obj);
+    return result;
+  };
+
+const createObject = async (req) => {
+    try {
+         const objs = req.body.name;
+          const files = findObj(objs, '__type', '__file');
+          files.forEach((file) => {
+                const filename = file.fileName
+                if (fs.existsSync(`./uploads/${filename}`)) {
+                  fs.rename(`./uploads/${filename}`, `./uploadsFinal/${filename}`, function (err) {
+                    if (err) {
+                      throw new Error(err);
+                    }
+                  });
+                }
+              });
+
+        const object = new objects({
+            name: req.body.name,
+            createdBy: req.app.locals.user._id
+        })
+        const savedObj = await object.save()
+
+        return  savedObj
+    }
+    catch (err) {
+        throw err
+    }
+}
+
 const getAllObjects = async (locals) => {
     try {
         const obj = await objects.find({ createdBy: locals.user._id });
-        // console.log(objects)
         return obj;
       } catch (err) {
         throw Error(err);
       }
 }
-
 
 module.exports = {
     createObject,

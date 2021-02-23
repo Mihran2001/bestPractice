@@ -4,7 +4,6 @@ const objectService = require('../service/objectService')
 const createObject = async  (req, res) =>
 {
     try {
-        // console.log(req.app.locals)
         const obj = await objectService.createObject(req)
         res.json(obj)
     }
@@ -43,4 +42,9 @@ const getObjects = async (req, res) => {
     }
   };
 
-module.exports = { createObject, deleteObject, editObject, getObjects}
+const getFile = async (req, res) =>
+{
+    res.json(req.file.filename)
+}
+
+module.exports = { createObject, deleteObject, editObject, getObjects, getFile}
