@@ -13,7 +13,7 @@ const app = express();
 const port = process.env.port || 3000;
 app.listen(port)
 
-mongoose.connect('mongodb+srv://mihran:2001@cluster0.ulrw3.mongodb.net/bestPractice?retryWrites=true&w=majority', {
+mongoose.connect('mongodb://localhost:27017/cms', {
     useNewUrlParser: true,
     useUnifiedTopology: true
 })
