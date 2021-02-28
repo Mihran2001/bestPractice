@@ -2,8 +2,16 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const objectSchema = new Schema({
-  name: {
-    obj: {
+  obj: {
+    name: {
+      type: String,
+      required: true
+    },
+    key: {
+      type: String,
+      required: true
+    },
+    value: {
       type: {},
       required: true
     },

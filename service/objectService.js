@@ -4,7 +4,7 @@ const fs = require('fs')
 const deleteObject = async (req) => 
 {
     try {
-        let result = await	objects.deleteOne({createdBy: req.body.createdBy})
+      let result = await	objects.deleteOne({createdBy: req.app.locals.user._id})
         return true
     }
     catch (err) {
@@ -14,7 +14,7 @@ const deleteObject = async (req) =>
 
 const editObject = async (req) => {
     try {
-        let deleted = await	objects.deleteOne({_id: req.body._id});
+        let deleted = await	objects.deleteOne({createdBy: req.app.locals.user._id});
         const edited = new objects({...req.body});
         const saveEditedObj = await edited.save();
         return saveEditedObj;
@@ -43,7 +43,7 @@ const findObj = (obj, key, value) => {
 
 const createObject = async (req) => {
     try {
-         const objs = req.body.name;
+         const objs = req.body.obj;
           const files = findObj(objs, '__type', '__file');
           files.forEach((file) => {
                 const filename = file.fileName
@@ -57,7 +57,7 @@ const createObject = async (req) => {
               });
 
         const object = new objects({
-            name: req.body.name,
+            obj: req.body.obj,
             createdBy: req.app.locals.user._id
         })
         const savedObj = await object.save()

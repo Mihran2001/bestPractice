@@ -47,4 +47,4 @@ const getFile = async (req, res) =>
     res.json(req.file.filename)
 }
 
-module.exports = { createObject, deleteObject, editObject, getObjects, getFile}
+module.exports = { createObject, deleteObject, editObject, getObjects, getFile }
