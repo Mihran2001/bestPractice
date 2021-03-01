@@ -41,7 +41,7 @@ const login = async (body) => {
         }
     }
     catch {
-        throw "User isnt defined"
+        throw { message: "User isnt defined" }
     }
 }
 

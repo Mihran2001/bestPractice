@@ -64,7 +64,8 @@ describe('API testing', () => {
             chai.request(server)
             .post("/users/login")
             .end((err, response) => {
-                response.body.text.should.be.eq("User isnt defined");
+                //response.body.text.should.be.eq("User isnt defined");
+                expect(response.body).to.have.property('message').eq("User isnt defined");
                 done();
             })
         })
