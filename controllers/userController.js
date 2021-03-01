@@ -6,6 +6,7 @@ const authService = require('../service/authService')
 const register = async (req, res) => {
     try {
         const isRegistered = await authService.register(req)
+        console.log(isRegistered)
         if (!isRegistered) {
             res.json({
                 message: 'This email already exsist'

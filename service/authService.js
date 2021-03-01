@@ -17,10 +17,8 @@ const register = async (req) => {
                 username: req.body.username,
                 password: hashedPassword
             })
-            await creatUser.save(function (err, doc) {
-                if (err) return console.error(err);
-                console.log("Document inserted succussfully!");
-            })
+            await creatUser.save();
+            console.log("Document inserted succussfully!");
             return true
         }
     }
