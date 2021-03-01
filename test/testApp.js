@@ -70,15 +70,15 @@ describe('API testing', () => {
         })
     })
 
-    describe("createObject", (done) => {
-        const createdObject = {
-            name : {
-                obj : "value1",
-                tags : ["tag1", "tag2"]
-            }
-        } 
-        it('It should return Createdobject', (done) => {
+    // describe("createObject", (done) => {
+    //     const createdObject = {
+    //         name : {
+    //             obj : "value1",
+    //             tags : ["tag1", "tag2"]
+    //         }
+    //     } 
+    //     it('It should return Createdobject', (done) => {
             
-        })
-    })
+    //     })
+    // })
 })

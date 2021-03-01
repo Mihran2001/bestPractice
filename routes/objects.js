@@ -5,8 +5,8 @@ const authMiddleware = require('../middlewares/authMiddleware');
 const upload = require('../middlewares/uploadMiddleware');
 
 router.post('/createObject', authMiddleware, objectController.createObject)
-router.delete('/deleteObject', authMiddleware, objectController.deleteObject)
-router.put('/editObject', authMiddleware, objectController.editObject)
+router.delete('/deleteObject/:objectId', authMiddleware, objectController.deleteObject)
+router.put('/editObject/:objectId', authMiddleware, objectController.editObject)
 router.get('/getObjects', authMiddleware, objectController.getObjects)
 router.post('/getFile', authMiddleware, upload.single('uploadedFile'), objectController.getFile)
 

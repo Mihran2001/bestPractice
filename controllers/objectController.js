@@ -14,7 +14,7 @@ const createObject = async  (req, res) =>
 
 const deleteObject = async (req, res) => {
     try {
-        await objectService.deleteObject(req)
+        await objectService.deleteObject(req, req.params.objectId)
         res.json({message: "Object was deleted"})
     }    
     catch (err) {
@@ -24,7 +24,7 @@ const deleteObject = async (req, res) => {
 
 const editObject = async (req, res) => {
     try {
-        const editedObj = await objectService.editObject(req)
+        const editedObj = await objectService.editObject(req, req.params.objectId)
         res.json (editedObj)
     }
     catch (err) {

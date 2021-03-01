@@ -1,20 +1,20 @@
 const objects = require('../models/objects')
 const fs = require('fs')
 
-const deleteObject = async (req) => 
+const deleteObject = async (req, objectId) => 
 {
     try {
-      let result = await	objects.deleteOne({createdBy: req.app.locals.user._id})
-        return true
+      let result = await	objects.deleteOne({createdBy: req.app.locals.user._id, _id: objectId})
+      return true
     }
     catch (err) {
         throw err
     }
 }
 
-const editObject = async (req) => {
+const editObject = async (req, objectId) => {
     try {
-        let deleted = await	objects.deleteOne({createdBy: req.app.locals.user._id});
+        let deleted = await	objects.deleteOne({createdBy: req.app.locals.user._id, _id: objectId});
         const edited = new objects({...req.body});
         const saveEditedObj = await edited.save();
         return saveEditedObj;
