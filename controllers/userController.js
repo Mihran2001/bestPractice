@@ -19,7 +19,7 @@ const register = async (req, res) => {
         }
     }
     catch (err) {
-        throw err
+        res.json(err.message)
     }
 }
 
@@ -40,8 +40,7 @@ const login = async (req, res) => {
         })
     }
     catch(err) {
-        res.json(err)
-    }
+        res.json(err.message)    }
 }
 
 const signOut = (req, res) => {
