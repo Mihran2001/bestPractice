@@ -8,7 +8,7 @@ const createObject = async  (req, res) =>
         res.json(obj)
     }
     catch (err) {
-        throw err
+        res.json({message: "server error"});
     }
 }
 
@@ -18,7 +18,7 @@ const deleteObject = async (req, res) => {
         res.json({message: "Object was deleted"})
     }    
     catch (err) {
-        throw err
+        res.json({message: "server error"});
     }
 }
 
@@ -28,7 +28,7 @@ const editObject = async (req, res) => {
         res.json (editedObj)
     }
     catch (err) {
-        throw err
+        res.json({message: "server error"});
     }
 }
 

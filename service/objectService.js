@@ -4,23 +4,23 @@ const fs = require('fs')
 const deleteObject = async (req, objectId) => 
 {
     try {
-      let result = await	objects.deleteOne({createdBy: req.app.locals.user._id, _id: objectId})
+      await	objects.deleteOne({createdBy: req.app.locals.user._id, _id: objectId})
       return true
     }
     catch (err) {
-        throw err
+      throw new Error(err)
     }
 }
 
 const editObject = async (req, objectId) => {
     try {
-        let deleted = await	objects.deleteOne({createdBy: req.app.locals.user._id, _id: objectId});
+        await	objects.deleteOne({createdBy: req.app.locals.user._id, _id: objectId});
         const edited = new objects({...req.body});
         const saveEditedObj = await edited.save();
         return saveEditedObj;
     }
     catch (err) {
-        throw err
+      throw new Error(err)
     }
 }
 
@@ -65,7 +65,7 @@ const createObject = async (req) => {
         return  savedObj
     }
     catch (err) {
-        throw err
+      throw new Error(err)
     }
 }
 
@@ -74,7 +74,7 @@ const getAllObjects = async (locals) => {
         const obj = await objects.find({ createdBy: locals.user._id });
         return obj;
       } catch (err) {
-        throw Error(err);
+        throw new Error(err);
       }
 }
 

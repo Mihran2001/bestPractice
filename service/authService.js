@@ -23,7 +23,7 @@ const register = async (req) => {
         }
     }
     catch (err) {
-        throw err
+        throw new Error(err)
     }
 }
 
@@ -41,7 +41,7 @@ const login = async (body) => {
         }
     }
     catch {
-        throw { message: "User isnt defined" }
+        throw new Error({ message: "User isnt defined" })
     }
 }
 
@@ -51,7 +51,7 @@ const profile = async () => {
         return userObjects
     }
     catch (err) {
-        throw err
+        throw new Error(err)
     }
     
 }
